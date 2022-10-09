@@ -1,0 +1,16 @@
+import urllib.request as req 
+import bs4
+url="https://www.cwb.gov.tw/V8/C/E/MOD/MAP_LIST.html?T=2022101001-3"
+
+#request=req.Request(url,headers={
+#"User-Agent ":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36" })
+#↑↑↑為了要讓爬蟲看起來像使用者，必須使用以下的方式，發送正常使用者的訊息給網站知道，中央氣象局不需要此功能
+
+with req.urlopen(url) as response:
+   data=response.read().decode("utf-8")  
+
+root=bs4.BeautifulSoup(data,"html.parser")
+magnitude=root.find("a",href="#eq-1") #把抓到的資料放到 magnitude(震度等級)
+
+
+print(magnitude.string)
